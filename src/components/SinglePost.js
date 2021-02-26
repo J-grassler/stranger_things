@@ -8,6 +8,7 @@ const SinglePost = ({post, posts, setPosts, token}) => {
     const [text, setText] = useState('');
 
     const handleDelete = async () => {
+        console.log('tdawg', token)
         const response = await fetch (`https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts/${post._id}`, {
             method: 'DELETE',
             headers: {
@@ -21,8 +22,8 @@ const SinglePost = ({post, posts, setPosts, token}) => {
             setPosts(newPosts)
         }
     }
-    const handleMessages = async (ev) => {
-        ev.preventDefault();
+    const handleMessages = async (event) => {
+        event.preventDefault();
         const response = await fetch (`https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts/${post._id}/messages`, {
             method: 'POST',
             headers: {
@@ -46,7 +47,7 @@ const SinglePost = ({post, posts, setPosts, token}) => {
                     <div>{ post.body }</div>
                 </Card>
                 {(token && !post.isAuthor) && <form onSubmit={handleMessages}>
-                    <input type="text" value={text} onChange={(ev) => setText(ev.target.value)} placeholder="message"></input>
+                    <input type="text" value={text} onChange={(event) => setText(event.target.value)} placeholder="message"></input>
                     <Button type="submit" variant='primary'>Send Message</Button>
                     </form>}
                 {post.isAuthor && <Button type="button" variant='danger' onClick={handleDelete}>Delete</Button>}

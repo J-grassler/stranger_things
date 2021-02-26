@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 
 
-const Nav = ({token, setToken}) => {
+const NavMenu = ({token, setToken}) => {
 
     return <>
         <nav>
@@ -25,4 +25,4 @@ const Nav = ({token, setToken}) => {
 }
 
 
-export default Nav;
+export default NavMenu;

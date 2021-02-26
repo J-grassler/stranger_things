@@ -10,20 +10,18 @@ import {
   Route,
 } from 'react-router-dom';
 
-import './style.js';
-
 import {
-  headerStyle
-} from './style.js'
-
-import {
-  AccountForm,
-  PostsList,
-  PostsAdd,
-  Nav,
+  Accounts,
+  List,
+  AddPost,
+  NavMenu,
   PostsView,
   Messages,
 } from './components';
+
+import {
+    fetchUser
+} from './api'
 
 const App = () => {
   const [token, setToken] = useState( () => {
@@ -37,37 +35,24 @@ const App = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetchUser();
+    fetchUser;
     console.log('user: ')
   }, [token])
 
-  const fetchUser = async () =>{
-    const response = await fetch('https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/users', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    },
-    })
-    const data = await response.json();
-    console.log(data)
-    setUser(data.data)
-  }
-
-
   return <>
-      <h1 style={headerStyle}>Strangers Things</h1>
+      <h1>Strangers Things</h1>
       {user?.username && <div>Hello {user?.username}</div> }
-              <Nav token={token} setToken={setToken}/>
+              <NavMenu token={token} setToken={setToken}/>
                 <Route exact path="/login">
-                  <AccountForm type={'login'} setToken={setToken} setUser={setUser}/>
+                  <Accounts type={'login'} setToken={setToken} setUser={setUser}/>
                 </Route>
                 
                 <Route exact path="/register">
-                  <AccountForm type={'register'} setToken={setToken} setUser={setUser}/>
+                  <Accounts type={'register'} setToken={setToken} setUser={setUser}/>
                 </Route>
 
                 <Route exact path ="/posts">
-                  <PostsList posts={posts} setPosts={setPosts} token={token}/>
+                  <List posts={posts} setPosts={setPosts} token={token}/>
                 </Route>
 
                 <Route exact path='/'>
@@ -75,11 +60,11 @@ const App = () => {
                 </Route>
 
                 <Route exact path='/posts/:id'>
-                  <PostsView posts={posts} setPosts={setPosts}/>
+                  <PostsView posts={posts} setPosts={setPosts} token={token}/>
                 </Route>
 
                 <Route exact path = "/createpost">
-                  <PostsAdd posts={posts} setPosts={setPosts} token={token}/>
+                  <AddPost posts={posts} setPosts={setPosts} token={token}/>
                 </Route>
 
                 <Route exact path = "/profile">

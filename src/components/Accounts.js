@@ -3,12 +3,12 @@ import {Link,
   useHistory
 } from 'react-router-dom'; 
 
-const AccountForm = ({type, setToken, setUser}) => {
+const Accounts = ({type, setToken, setUser}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const title = type === 'login' ? 'Login' : 'Register';
-  const oppositeTitle = type === 'login' ? 'Register' : 'Login';
-  const oppositeType = type === 'login' ? 'register' : 'login';
+  const SwitchTitle = type === 'login' ? 'Register' : 'Login';
+  const SwitchType = type === 'login' ? 'register' : 'login';
   const history = useHistory();
 
 
@@ -28,11 +28,8 @@ const AccountForm = ({type, setToken, setUser}) => {
         }
       })
     });
-    console.log('response: ', response);
     const {data} = await response.json();
-    console.log('{data}: ', {data});
     const token = data?.token;
-    console.log('token: ', token);
     if (token) {
       localStorage.setItem('token', token)
       setToken(token);
@@ -42,7 +39,6 @@ const AccountForm = ({type, setToken, setUser}) => {
           'Authorization': `Bearer ${token}`,
         },
       });
-      // const contentType = response.headers.get('Content-Type')
       const {data} = await response.json();
       console.log('data: ', data);
       setUser(data);
@@ -60,8 +56,8 @@ const AccountForm = ({type, setToken, setUser}) => {
       <input type="password" value={password} onChange={(ev) => setPassword(ev.target.value)}placeholder="password"></input>
       <button type="submit">{title}</button>
     </form>    
-    <Link to={`/${oppositeType}`}>{oppositeTitle}</Link>
+    <Link to={`/${SwitchType}`}>{SwitchTitle}</Link>
   </>
 }
 
-export default AccountForm;
+export default Accounts;

@@ -3,7 +3,7 @@ import {SinglePost} from './';
 
 
 
-const PostsList = ({posts, setPosts, token}) => {
+const List = ({posts, setPosts, token}) => {
 
     useEffect(() => {
         fetchPosts()
@@ -38,4 +38,4 @@ const PostsList = ({posts, setPosts, token}) => {
 }
 
 
-export default PostsList;
+export default List;

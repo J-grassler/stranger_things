@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-const PostsAdd = ({token, posts, setPosts}) => {
+const AddPost = ({token, posts, setPosts}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
-    const handleSubmit = async (ev) => {
-        ev.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         const response = await fetch (`https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts`, {
             method: 'POST',
             headers: {
@@ -30,13 +30,13 @@ const PostsAdd = ({token, posts, setPosts}) => {
 
     return <> 
         <form onSubmit={handleSubmit}>
-            <input type="text" value={title} onChange={(ev) => setTitle(ev.target.value)}placeholder="title"></input>
-            <input type="text" value={description} onChange={(ev) => setDescription(ev.target.value)}placeholder="description"></input>
-            <input type="text" value={price} onChange={(ev) => setPrice(ev.target.value)}placeholder="price"></input>
+            <input type="text" value={title} onChange={(event) => setTitle(event.target.value)}placeholder="title"></input>
+            <input type="text" value={description} onChange={(event) => setDescription(event.target.value)}placeholder="description"></input>
+            <input type="text" value={price} onChange={(event) => setPrice(event.target.value)}placeholder="price"></input>
             <button type="submit" placeholder="Create Post">Post</button>
         </form>
     </>
 }
 
 
-export default PostsAdd;
+export default AddPost;
