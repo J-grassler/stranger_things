@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   BrowserRouter as Router,
   Link,
@@ -7,7 +6,6 @@ import {
   Switch,
   useParams,
 } from "react-router-dom";
-
 import { auth } from "../api";
 
 const Auth = (props) => {
@@ -27,7 +25,7 @@ const Auth = (props) => {
         placeholder="username"
       />
       <button
-        onClick={async (event) => {
+        onClick={async () => {
           try {
             const result = await auth(username, password, true);
             setIsLoggedIn(true);
@@ -65,10 +63,10 @@ const NavButtons = () => {
   return (
     <>
       <Link to="/messages">
-        <button>Profile</button>
+        <button>PROFILE</button>
       </Link>
       <Link to="/newpost">
-        <button>New Post</button>
+        <button>NEW POST</button>
       </Link>
     </>
   );

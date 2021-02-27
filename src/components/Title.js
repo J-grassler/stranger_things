@@ -1,7 +1,5 @@
 import React from "react";
 
-import {fetchReplies} from "../api"
-
 const Title = () => {
   return (
     <div id="Title" className="top-left">

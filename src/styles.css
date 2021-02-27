@@ -1,143 +1,207 @@
 * {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: fantasy;
-  }
-  
-  .app {
-    text-align: center;
-    background-color: black;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-  }
-  
-  .search {
-    grid-row: 2;
-    padding-bottom: 1rem;
-  }
-  
-  .main {
-    grid-row: 3;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    overflow: hidden;
-  }
-  
-  .feature {
-    grid-column: 1;
-    overflow-y: scroll;
-    width: 66vw;
-  }
-  
-  .sideBar {
-    grid-column: 2;
-    width: 34vw;
-  }
-  
-  .nav {
-    grid-row: 1;
-    width: 100vw;
-    padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: fantasy;
+}
+
+.app {
+  text-align: center;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.search {
+  grid-row: 2;
+  padding-bottom: 1rem;
+}
+
+.main {
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  overflow: hidden;
+}
+
+.feature {
+  grid-column: 1;
+  overflow-y: scroll;
+  width: 66vw;
+}
+
+.sideBar {
+  grid-column: 2;
+  width: 34vw;
+}
+
+.nav {
+  grid-row: 1;
+  width: 100vw;
+  padding: 10px;
+  background: black;
+  float: right;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+}
+.postList {
+  grid-area: 1 / 1 / 6 / 4;
+}
+
+.post {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 10px;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 5%;
+  background: white;
+  box-shadow: 0 0 15px red;
+
+}
+
+.NewPost {
+  grid-area: 1 / 4 / 6 / 6;
+}
+
+.NewMessage {
+  width: 33vw;
+}
+
+.Submit {
+  height: 40px;
+  width: 100px;
+  background-color: white;
+  border-width: 5px;
+  box-shadow: 0 0 7px red;
+}
+
+.Search {
+  background-color: white;
+  box-shadow: 0 0 7px red;
+}
+
+input {
+  background-color: white;
+  box-shadow: 0 0 11px red;
+  color: black;
+  margin: 10px;
+  width: 50%;
+}
+
+textarea {
+  height: 50px;
+  background-color: white;
+  box-shadow: 0 0 15px red;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.messageText {
+    color: white;
+}
+.message{
+  color: black;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+    color: white;
     background: black;
-    float: right;
-  }
-  
-  .feature {
-    display: flex;
-    flex-direction: column;
-  }
-  .postList {
-    grid-area: 1 / 1 / 6 / 4;
-  }
-  
-  .post {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 10px;
-    margin-left: 15%;
-    margin-right: 15%;
-    margin-top: 5%;
-  
-    background: red;
-    border-color: black;
-    box-shadow: 0 0 15px red;
+}
 
-  }
-  
-  .NewPost {
-    grid-area: 1 / 4 / 6 / 6;
-  }
-  
-  .NewMessage {
-    width: 33vw;
-  }
-  
-  button {
-    height: 40px;
-    width: 100px;
-    background-color: red;
-    border-color: black;
-    border-width: 5px;
-    box-shadow: 0 0 7px red;
-    margin-right: 40px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 40px;
-  }
-  
-  .Submit {
-    height: 40px;
-    width: 100px;
-    background-color: red;
-    box-shadow: inset;
-    border-color:black;
-    border-width: 5px;
-    box-shadow: 0 0 7px red;
-  }
-  
-  .Search {
-    background-color: red;
-    border-color: black;
-    box-shadow: 0 0 7px red;
-  }
-  
-  .Delete {
-    height: 40px;
-    width: 100px;
-    background-color: red;
-    border-color: black;
-    border-radius: 50%;
-    box-shadow: 0 0 7px red;
-  }
-  
-  input {
-    background-color: red;
-    border-color: black;
-    box-shadow: 0 0 11px red;
+header > h1 {
+    font-family: 'Playfair Display', sans-serif;
     color: black;
-    margin: 10px;
-    width: 50%;
-  }
-  
-  textarea {
-    height: 50px;
-    background-color: red;
-    border-color: black;
-    box-shadow: 0 0 15px red;
-    margin-top: 10px;
-    width: 50%;
+    background: black;
+    font-size: 40px;
+    -webkit-text-stroke: 1px red;
   }
 
-  .messageText {
+  header > h3 {
       color: red;
   }
-  .message{
-    color: red;
-  }
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+button {
+  display: inline-block;
+  background: white;
+  color:red;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  border-color: black;
+  box-shadow: 0 0 7px red;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.postList {
+  background: #f4f4f4;
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.post.owner {
+  border-left: 5px solid green;
+}
+
+.post h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-form {
+  margin-bottom: 40px;
+}
+
+.form-control {
+  margin: 20px 0;
+}
+
+.form-control label {
+  display: block;
+}
+
+.form-control input {
+  width: 100%;
+  height: 40px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
