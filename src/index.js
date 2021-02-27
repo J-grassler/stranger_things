@@ -1,82 +1,116 @@
-import React, {
-  useEffect, 
-  useState 
-} from 'react';
-
-import ReactDOM from 'react-dom';
-
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import {
-  BrowserRouter as Router, 
+  BrowserRouter as Router,
+  Link,
   Route,
-} from 'react-router-dom';
+  Switch,
+  useParams,
+} from "react-router-dom";
 
-import {
-  Accounts,
-  List,
-  AddPost,
-  NavMenu,
-  PostsView,
-  Messages,
-} from './components';
+// NOTE!! Install React Router (terminal --> npm install react-router-dom) if you haven't already.
 
+import { getToken, clearToken, hitAPI, fetchReplies } from "./api";
 import {
-    fetchUser
-} from './api'
+  Auth,
+  NavButtons,
+  Title,
+  Posts,
+  PostList,
+  NewPost,
+  NewMessage,
+  MessageList,
+} from "./components";
+
+import "./styles.css";
 
 const App = () => {
-  const [token, setToken] = useState( () => {
-    if (localStorage.getItem('token')) {
-      return localStorage.getItem('token')
-    } else {
-      return ''
-    }
-  });
-  const [user, setUser] = useState({});
-  const [posts, setPosts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
+  const [postList, setPostList] = useState([]);
+  const [activePost, setActivePost] = useState(null);
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    fetchUser;
-    console.log('user: ')
-  }, [token])
+    hitAPI("GET", "/posts")
+      .then((data) => {
+        const { posts } = data;
+        // console.log(posts);
+        setPostList(posts);
+      })
+      .catch(console.error);
+  }, [isLoggedIn]);
 
-  return <>
-      <h1>Strangers Things</h1>
-      {user?.username && <div>Hello {user?.username}</div> }
-              <NavMenu token={token} setToken={setToken}/>
-                <Route exact path="/login">
-                  <Accounts type={'login'} setToken={setToken} setUser={setUser}/>
-                </Route>
-                
-                <Route exact path="/register">
-                  <Accounts type={'register'} setToken={setToken} setUser={setUser}/>
-                </Route>
+  function filteredPosts() {
+    return postList.filter((post) => {
+      return (
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.price.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  }
 
-                <Route exact path ="/posts">
-                  <List posts={posts} setPosts={setPosts} token={token}/>
-                </Route>
+  return (
+    <Router>
+      <div className="app">
+        <header className="nav">
+          <Title />
+          {isLoggedIn ? (
+            <>
+              <NavButtons />
+              <button
+                className="logOut"
+                onClick={() => {
+                  clearToken();
+                  setIsLoggedIn(false);
+                }}
+              >
+                LOG OUT
+              </button>
+            </>
+          ) : (
+            <Auth setIsLoggedIn={setIsLoggedIn} />
+          )}
+        </header>
 
-                <Route exact path='/'>
-                  <h1>Welcome to Stranger's Things!</h1>
-                </Route>
+        <div className="search">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search by Title, Location or Price"
+          />
+        </div>
 
-                <Route exact path='/posts/:id'>
-                  <PostsView posts={posts} setPosts={setPosts} token={token}/>
-                </Route>
+        <main className="main">
+          <section className="feature">
+            <PostList
+              isLoggedIn={isLoggedIn}
+              setPostList={setPostList}
+              setActivePost={setActivePost}
+              postList={filteredPosts()}
+            />
+          </section>
+          <section className="sideBar">
+            <Route exact path="/newpost">
+              <NewPost
+                isLoggedIn={isLoggedIn}
+                postList={postList}
+                setPostList={setPostList}
+              />
+            </Route>
+            <Route exact path="/reply">
+              {isLoggedIn ? <NewMessage post={activePost} /> : null}
+            </Route>
+            <Route exact path="/messages">
+              <MessageList messageList={messageList} />
+            </Route>
+          </section>
+        </main>
+      </div>
+    </Router>
+  );
+};
 
-                <Route exact path = "/createpost">
-                  <AddPost posts={posts} setPosts={setPosts} token={token}/>
-                </Route>
-
-                <Route exact path = "/profile">
-                  <Messages user={user}/>
-                </Route>
-  </> 
-
-}
-
-ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById('app'),
-);
+ReactDOM.render(<App />, document.getElementById("app"));
