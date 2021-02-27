@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { fetchPost } from "../api";
 
-const NewPost = (props) => {
+const AddPost = (props) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -14,7 +14,7 @@ const NewPost = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const newPost = {
+    const addPost = {
       description,
       location,
       price,
@@ -22,12 +22,11 @@ const NewPost = (props) => {
       title,
     };
 
-    fetchPost(newPost).then((result) => {
+    fetchPost(addPost).then((result) => {
       const post = result.post;
       const postsCopy = postList.slice();
       postsCopy.push(post);
       setPostList(postsCopy);
-      //resetting state to reset form 
       setDescription("");
       setLocation("");
       setPrice("");
@@ -48,7 +47,7 @@ const NewPost = (props) => {
 
   return (
     <>
-      <div className="NewPost">
+      <div className="AddPost">
         {isLoggedIn ? (
           <form onSubmit={handleSubmit} className="post">
             <h3>Create Post</h3>
@@ -101,4 +100,4 @@ const NewPost = (props) => {
   );
 };
 
-export default NewPost;
+export default AddPost;

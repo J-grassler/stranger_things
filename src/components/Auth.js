@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-  useParams,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { auth } from "../api";
 
 const Auth = (props) => {
@@ -27,7 +21,7 @@ const Auth = (props) => {
       <button
         onClick={async () => {
           try {
-            const result = await auth(username, password, true);
+            await auth(username, password, true);
             setIsLoggedIn(true);
           } catch (error) {
             setErrorMessage(error.message);
@@ -44,7 +38,7 @@ const Auth = (props) => {
       />
 
       <button
-        onClick={async (event) => {
+        onClick={async () => {
           try {
             const result = await auth(username, password);
             setIsLoggedIn(true);
@@ -59,7 +53,7 @@ const Auth = (props) => {
   );
 };
 
-const NavButtons = () => {
+const Nav = () => {
   return (
     <>
       <Link to="/messages">
@@ -73,4 +67,4 @@ const NavButtons = () => {
 };
 
 export default Auth;
-export { NavButtons };
+export { Nav };

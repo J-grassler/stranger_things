@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchPost, deletePost } from "../api";
+import { fetchPost } from "../api";
 
 const CreatePost = (props) => {
   const [description, setDescription] = useState("");

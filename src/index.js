@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-  useParams,
-} from "react-router-dom";
-
-// NOTE!! Install React Router (terminal --> npm install react-router-dom) if you haven't already.
-
-import { getToken, clearToken, hitAPI, fetchReplies } from "./api";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { getToken, clearToken, hitAPI } from "./api";
 import {
   Auth,
-  NavButtons,
-  Title,
-  Posts,
+  Nav,
+  StrangersThings,
   PostList,
-  NewPost,
+  AddPost,
   NewMessage,
-  MessageList,
+  Messages,
 } from "./components";
-
 import "./styles.css";
 
 const App = () => {
@@ -29,13 +18,12 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
   const [postList, setPostList] = useState([]);
   const [activePost, setActivePost] = useState(null);
-  const [messageList, setMessageList] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     hitAPI("GET", "/posts")
       .then((data) => {
         const { posts } = data;
-        // console.log(posts);
         setPostList(posts);
       })
       .catch(console.error);
@@ -55,10 +43,10 @@ const App = () => {
     <Router>
       <div className="app">
         <header className="nav">
-          <Title />
+          <StrangersThings />
           {isLoggedIn ? (
             <>
-              <NavButtons />
+              <Nav />
               <button
                 className="logOut"
                 onClick={() => {
@@ -94,7 +82,7 @@ const App = () => {
           </section>
           <section className="sideBar">
             <Route exact path="/newpost">
-              <NewPost
+              <AddPost
                 isLoggedIn={isLoggedIn}
                 postList={postList}
                 setPostList={setPostList}
@@ -104,7 +92,11 @@ const App = () => {
               {isLoggedIn ? <NewMessage post={activePost} /> : null}
             </Route>
             <Route exact path="/messages">
-              <MessageList messageList={messageList} />
+              <Messages 
+              isLoggedIn={isLoggedIn}
+              setMessages={setMessages} 
+              messages={messages}
+              />
             </Route>
           </section>
         </main>

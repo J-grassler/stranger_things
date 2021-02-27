@@ -25,10 +25,10 @@ const NewMessage = ({ post: { title, _id } }) => {
           onChange={ (event) => {
             setReply(event.target.value);
           }}
-          placeholder="Drag the bottom right corner for more space...."
+          placeholder="Enter message.."
         ></textarea>
         <br></br>
-        <button className="Submit">Submit</button>
+        <button className="Submit">SEND MESSAGE</button>
       </form>
     </div>
   );
