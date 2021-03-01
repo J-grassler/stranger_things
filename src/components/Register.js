@@ -62,7 +62,6 @@ const Register = ({
                 <input type='password' value={confirmedPassword} min='8' max='20' required onChange={(event) => setConfirmedPassword(event.target.value)}></input>
                 <button type='submit'>Register</button>
             </form>
-            <a className="existingUser" href='/'>Existing user? Log in</a>
         </div>
     )
 }

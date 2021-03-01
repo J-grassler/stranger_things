@@ -56,7 +56,6 @@ const UserLogin = ({
         <input type='password' value={password} placeholder='Password' min='8' max='20' required onChange={(event) => setPassword(event.target.value)}></input>
         <input type='submit' />
       </form>
-      <a className="newUser" href='/register'>Not registered? Sign up</a>
     </div>
   )
 }
