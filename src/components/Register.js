@@ -5,13 +5,15 @@ import { Redirect } from 'react-router-dom';
 const Register = ({ 
     username,
     password, 
-    passCheck, 
-    token, 
-    setToken, 
-    setUser, 
+    confirmedPassword, 
+    registerToken, 
+    setRegisterToken, 
+    setUsername, 
     setPassword, 
-    setPass
+    setConfirmedPassword
  }) => {
+
+    username, password, confirmedPassword, registerToken, setRegisterToken, setUsername, setPassword, setConfirmedPassword
 
 
     const registerUser = async (username, password) => {
@@ -31,13 +33,13 @@ const Register = ({
             }
         );
         const data = await resp.json();
-        const token = data.data.token
-        console.log(token);
-        setToken(token);
-        localStorage.setItem('token', JSON.stringify(token));
+        const registerToken = data.data.token
+        console.log(registerToken);
+        setRegisterToken(registerToken);
+        localStorage.setItem('registerToken', JSON.stringify(registerToken));
     };
 
-    if (token) {
+    if (registerToken) {
         return <Redirect to='/' />
     }
 
@@ -53,11 +55,11 @@ const Register = ({
             <form onSubmit={handleClick}>
                 <h2 className="intro">Registration</h2>
                 <label className="username">Username</label>
-                <input type='text' value={username} min='8' max='20' required onChange={(event) => setUser(event.target.value)}></input>
+                <input type='text' value={username} min='8' max='20' required onChange={(event) => setUsername(event.target.value)}></input>
                 <label className="password">Password</label>
                 <input type='password' value={password} min='8' max='20' required onChange={(event) => setPassword(event.target.value)}></input>
                 <label className="rePassword">Re-enter Password</label>
-                <input type='password' value={passCheck} min='8' max='20' required onChange={(event) => setPass(event.target.value)}></input>
+                <input type='password' value={confirmedPassword} min='8' max='20' required onChange={(event) => setConfirmedPassword(event.target.value)}></input>
                 <button type='submit'>Register</button>
             </form>
             <a className="existingUser" href='/'>Existing user? Log in</a>
