@@ -1,108 +1,157 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { getToken, clearToken, hitAPI } from "./api";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { useState } from 'react';
+
 import {
-  Auth,
-  Nav,
-  StrangersThings,
-  PostList,
-  AddPost,
-  NewMessage,
-  Messages,
-} from "./components";
-import "./styles.css";
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from 'react-router-dom';
+
+import {
+  Title,
+  Profile,
+  Register,
+  UserLogin,
+  Posts,
+  CreatePostForm,
+  Messages
+} from './components';
+import { deleteToken } from './api';
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
-  const [postList, setPostList] = useState([]);
-  const [activePost, setActivePost] = useState(null);
-  const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    hitAPI("GET", "/posts")
-      .then((data) => {
-        const { posts } = data;
-        setPostList(posts);
-      })
-      .catch(console.error);
-  }, [isLoggedIn]);
+  const [username, setUsername] = useState('');
+  const [post, setPost] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmedPassword, setConfirmedPassword] = useState('');
+  const [registerToken, setRegisterToken] = useState('');
+  const [token, setLoginToken] = useState('');
+  const [postId, setPostId] = useState('');
+  const [postTitle, setTitle] = useState('');
+  const [postDescription, setDescription] = useState('');
+  const [postPrice, setPrice] = useState('');
+  const [postLocation, setLocation] = useState('');
+  const [willDeliver, setDelivery] = useState(false);
+  const [posts, setPosts] = useState([]);
 
-  function filteredPosts() {
-    return postList.filter((post) => {
-      return (
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.price.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-  }
 
   return (
     <Router>
       <div className="app">
-        <header className="nav">
-          <StrangersThings />
-          {isLoggedIn ? (
-            <>
-              <Nav />
-              <button
-                className="logOut"
-                onClick={() => {
-                  clearToken();
-                  setIsLoggedIn(false);
-                }}
-              >
-                LOG OUT
-              </button>
-            </>
-          ) : (
-            <Auth setIsLoggedIn={setIsLoggedIn} />
-          )}
-        </header>
+        <Route exact path='/home'>
+          <Title />
 
-        <div className="search">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search by Title, Location or Price"
-          />
-        </div>
+          <nav>
+            <Link to='/home'><button>Home</button></Link>
+            <Link to='/posts'><button>Posts</button></Link>
+            <Link to='/profile'><button>Profile</button></Link>
+            <Link to='/'><button>Login</button></Link>
+            <Link to='/register'><button>Register</button></Link>
+            <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+          </nav>
 
-        <main className="main">
-          <section className="feature">
-            <PostList
-              isLoggedIn={isLoggedIn}
-              setPostList={setPostList}
-              setActivePost={setActivePost}
-              postList={filteredPosts()}
-            />
-          </section>
-          <section className="sideBar">
-            <Route exact path="/newpost">
-              <AddPost
-                isLoggedIn={isLoggedIn}
-                postList={postList}
-                setPostList={setPostList}
-              />
+          <h1 className="intro">Buy a strangers things, or sell even stranger things.</h1>
+        </Route>
+
+        <main>
+          <Switch>
+
+            <Route exact path='/'>
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/profile'><button>Profile</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/register'><button>Register</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <UserLogin username={username} password={password} setUsername={setUsername} setPassword={setPassword}
+                token={token} setLoginToken={setLoginToken} />
             </Route>
-            <Route exact path="/reply">
-              {isLoggedIn ? <NewMessage post={activePost} /> : null}
+
+            <Route exact path='/posts'>
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/profile'><button>Profile</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/register'><button>Register</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <Posts posts={posts} setPosts={setPosts} setPost={setPost} post={post} token={token} />
             </Route>
-            <Route exact path="/messages">
-              <Messages 
-              isLoggedIn={isLoggedIn}
-              setMessages={setMessages} 
-              messages={messages}
-              />
+
+            <Route exact path='/createpost'>
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/profile'><button>Profile</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/register'><button>Register</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <CreatePostForm token={token} postId={postId} setPostId={setPostId} postTitle={postTitle}
+                setTitle={setTitle} postDescription={postDescription} setDescription={setDescription}
+                postPrice={postPrice} setPrice={setPrice} postLocation={postLocation}
+                setLocation={setLocation} willDeliver={willDeliver} setDelivery={setDelivery} />
             </Route>
-          </section>
+
+            <Route exact path='/profile'>
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/profile'><button>Profile</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/register'><button>Register</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <Profile />
+            </Route>
+
+            <Route exact path='/register'>
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/profile'><button>Profile</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <Register username={username} password={password} confirmedPassword={confirmedPassword}
+                registerToken={registerToken} setUsername={setUsername} setPassword={setPassword}
+                setConfirmedPassword={setConfirmedPassword} setRegisterToken={setRegisterToken} />
+            </Route>
+
+            <Route exact path="/messages/:postId" >
+              <Title />
+              <nav>
+                <Link to='/home'><button>Home</button></Link>
+                <Link to='/posts'><button>Posts</button></Link>
+                <Link to='/'><button>Login</button></Link>
+                <Link to='/register'><button>Register</button></Link>
+                <Link to='/' onClick={() => { deleteToken() }}><button>Logout</button></Link>
+              </nav>
+              <Messages token={token} />
+            </Route>
+
+          </Switch>
         </main>
+
       </div>
     </Router>
-  );
-};
+  )
+}
 
-ReactDOM.render(<App />, document.getElementById("app"));
+
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById('app'),
+)

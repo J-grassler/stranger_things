@@ -1,6 +1,6 @@
 import React from "react";
 
-const StrangersThings = () => {
+const Title = () => {
   return (
     <div id="StrangersThings" className="top-left">
       <h1>Stranger's Things</h1>
@@ -8,4 +8,4 @@ const StrangersThings = () => {
   );
 };
 
-export default StrangersThings;
+export default Title;

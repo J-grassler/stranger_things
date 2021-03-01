@@ -1,96 +1,41 @@
-import React, { useState } from "react";
-import { fetchPost } from "../api";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { fetchPosts, fetchToken } from '../api';
+import { Link } from 'react-router-dom';
+import PostList from './PostList';
+import Search from './Search'
 
-const CreatePost = (props) => {
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [price, setPrice] = useState("");
-  const [title, setTitle] = useState("");
-  const [willDeliver, setWillDeliver] = useState(false);
-  const [selectDeliver, setSelectDeliver] = useState("no");
 
-  const { postList, setPostList, isLoggedIn } = props;
+const Posts = ({ setPosts, posts }) => {
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const [search, setSearch] = useState([]);
 
-    const newPost = {
-      description,
-      location,
-      price,
-      willDeliver,
-      title,
-    };
+  useEffect(() => {
+    fetchPosts(fetchToken())
+      .then(({ data }) => {
+        setPosts(data.posts)
+        setSearch(data.posts)
+      })
+  }, [])
 
-    fetchPost(newPost).then((result) => {
-      const post = result.post;
-      const postsCopy = postList.slice();
-      postsCopy.push(post);
-      setPostList(postsCopy);
-    });
-  };
 
-  const handleChange = (event) => {
-    setSelectDeliver(event.target.value);
-    if (event.target.value === "yes") {
-      setWillDeliver(true);
-    } else {
-      setWillDeliver(false);
-    }
+  console.log(posts);
+
+  const searchPosts = (searchTerm) => {
+    setSearch(posts.filter((post) => {
+      const postName = post.title.toLowerCase();
+      return postName.includes(searchTerm.toLowerCase());
+    }))
   };
 
   return (
     <div>
-      {isLoggedIn ? (
-        <form onSubmit={handleSubmit} className="postForm">
-          <h3>Create Post</h3>
-          <input
-            type="text"
-            value={title}
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          ></input>
-          <br />
-          <textarea
-            type="text"
-            value={description}
-            placeholder="Description"
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-          <br />
-          <input
-            type="text"
-            value={location}
-            placeholder="Location"
-            onChange={(e) => setLocation(e.target.value)}
-          ></input>
-          <br />
-          <input
-            type="text"
-            value={price}
-            placeholder="Price"
-            onChange={(e) => setPrice(e.target.value)}
-          ></input>
-          <br />
-          <select
-            value={selectDeliver}
-            onChange={(e) => {
-              handleChange(e);
-            }}
-            name="Will Deliver"
-          >
-            <option value="no">No</option>
+      <h1 className="intro">Posts</h1>
+      <Search searchPosts={searchPosts} />
+      <Link to='/createpost'><button className="button">New Post</button></Link>
+      {search.map((post, index) => <PostList key={index} post={post}></PostList>)}
+    </div>
+  )
+}
 
-            <option value="yes">Yes</option>
-          </select>
-          <label>Will Deliver</label>
-          <br />
-          <input className="Submit" type="submit" value="Submit"></input>
-        </form>
-      ) : null}
-
-          </div>
-  );
-};
-
-export default CreatePost;
+export default Posts;

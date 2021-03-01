@@ -1,135 +1,62 @@
-const BASE_URL =
-  "https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT";
-
-export const getToken = () => {
-  return localStorage.getItem("auth-token");
-};
-
-export const clearToken = () => {
-  localStorage.removeItem("auth-token");
-};
-
-const setToken = (token) => {
-  localStorage.setItem("auth-token", token);
-};
-
-function buildHeaders() {
-  let base = {
-    "Content-Type": "application/json",
-  };
-
-  if (getToken()) {
-    base["Authorization"] = `Bearer ${getToken()}`;
-  }
-
-  return base;
+export function saveToken(token) {
+    localStorage.setItem('token', JSON.stringify(token));
 }
 
-export const auth = async (username, password, isNew = false) => {
-  const url = `${BASE_URL}/users` + (isNew ? "/register" : "/login");
+export function fetchToken() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    return token;
+}
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: buildHeaders(),
-    body: JSON.stringify({
-      user: {
-        username: username,
-        password: password,
-      },
-    }),
-  });
+export function deleteToken() {
+    localStorage.removeItem('token');
+}
 
-  const { error, data } = await response.json();
 
-  if (error) {
-    throw Error(error.message);
-  }
+export const fetchPosts = async (token = '') => {
+    const response = await fetch('https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    const data = await response.json();
+    return data;
+}
 
-  if (data && data.token) {
-    setToken(data.token);
-  }
 
-  return data;
-};
+export const userProfile = async (token = '') => {
 
-export const hitAPI = async (method, endpoint, bodyObj) => {
-  const payload = {
-    method: method,
-    headers: buildHeaders(),
-  };
+    const response = await fetch('https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/users/me', {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+    })
+    const data = await response.json();
+    return data;
+}
 
-  if (bodyObj) {
-    payload.body = JSON.stringify(bodyObj);
-  }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, payload);
 
-  const { error, data } = await response.json();
+export const sendMessages = ({
+    messageContent,
+    postId
+}) => {
 
-  if (error) {
-    throw Error(error.message);
-  }
+    return fetch(`https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts/${postId}/messages`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${fetchToken()}`
+        },
+        body: JSON.stringify({
+            message: {
+                content: messageContent,
+            }
+        })
+    }).then(response => response.json())
+        .then(result => {
+            console.log(result);
+        })
+        .catch((error) => console.error(error));
 
-  if (data && data.token) {
-    setToken(data.token);
-  }
-
-  return data;
-};
-
-export const fetchPost = async (post) => {
-  console.log(post, "in api");
-  const url = `${BASE_URL}/posts`;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: buildHeaders(),
-    body: JSON.stringify({ post }),
-  });
-
-  const { error, data } = await response.json();
-
-  if (error) {
-    throw Error(error.message);
-  }
-
-  return data;
-};
-
-export const deletePost = async (id) => {
-  const url = `${BASE_URL}/posts/${id}`;
-
-  const response = await fetch(url, {
-    method: "DELETE",
-    headers: buildHeaders(),
-  });
-
-  const { error, data } = await response.json();
-
-  if (error) {
-    throw Error(error.message);
-  }
-
-  return data;
-};
-
-export const fetchMessages = async (post) => {
-  console.log(post, "in messages");
-  const url = `${BASE_URL}/posts/${id}/messages`;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: buildHeaders(),
-    body: JSON.stringify({
-      message: {},
-    }),
-  });
-
-  const { error, data } = await response.json();
-
-  if (error) {
-    throw Error(error.message);
-  }
-
-  return data;
-};
+}

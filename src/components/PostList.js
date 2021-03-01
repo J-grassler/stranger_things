@@ -1,57 +1,62 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { deletePost } from "../api";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { fetchToken } from '../api';
+
+export default function PostList(props) {
+    const {
+        post
+    } = props
 
 
-const PostList = (props) => {
-  const { postList, isLoggedIn, setPostList, setActivePost } = props;
+    console.log(post);
+    const postId = post._id;
 
-  const history = useHistory();
-  const handleDelete = (id, index) => {
-    deletePost(id).then(() => {
-      const postsCopy = postList.slice();
-      postsCopy.splice(index, 1);
-      setPostList(postsCopy.reverse());
-    });
-  };
-  return (
-    <div className="postList">
-      {postList.reverse().map((post, idx) => {
+
+    const history = useHistory();
+
+
+    function handleDelete(event) {
+        event.preventDefault();
+        fetch(`https://strangers-things.herokuapp.com/api/2010-UNF-RM-WEB-PT/posts/${postId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${fetchToken()}`
+            }
+        }).then(response => response.json())
+            .then(result => {
+                console.log(result);
+            })
+            .catch(console.error);
+        alert('Successfully deleted, please refresh the page.');
+    }
+
+    if (!post) {
+        return <div></div>
+    }
+
+    if (post.active === true) {
         return (
-          <div className="post" key={ idx }>
-            { console.log(post) }
-            <h3>{ post.title }</h3>
-            <span>{ post.author.username }</span>
-            <div>{ post.price }</div>
-            <div>{ post.description }</div>
-            <div>{ post.location }</div>
-            <div>{ post.willDeliver ? "Delivery: Yes" : "Delivery: No" }</div>
-            { post.isAuthor ? (
-              <button
-                onClick={() => {
-                  handleDelete(post._id, idx);
-                }}
-              >
-                Delete
-              </button>
-            ) : null }
-            { !post.isAuthor && isLoggedIn ? (
+            <div>
+                <h2 className="PostList">{post.title}</h2>
+                <h3 className="PostList">{post.description}</h3>
+                <h3 className="PostList">Price: {post.price}</h3>
+                <h3 className="PostList">Seller: {post.author.username}</h3>
+                <h3 className="PostList">Location: {post.location}</h3>
+                <h3 className="PostList">Will Deliver: {post.willDeliver}</h3>
 
-              <button
-              onClick={() => {
-                setActivePost(post);
-                history.push("/reply")
-              }}
-              >
-                Reply
-              </button>
-        ) : null
-        }
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+                {post.isAuthor ? (
+                    <div>
+                        <button onClick={handleDelete}>Delete</button>
+                    </div>
+                ) :
+                    <button onClick={() => history.push(`/messages/${postId}`)}>
+                        Send Message
+    </button>}
 
-export default PostList;
+            </div>
+        )
+    }
+
+    else return <div></div>
+}
