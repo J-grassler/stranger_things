@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  text-shadow: red;
+}
+
+#StrangersThings {
+    display: flex;
+    justify-content: center;
+    font-family: 'Playfair Display', sans-serif;
+    background: black;
+    font-size: 40px;
+    -webkit-text-stroke: 1px red;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 3;
+  }
+
+button {
+    display: flex;
+    justify-content: center;
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 3;
+    display: inline-block;
+    background: white;
+    color:red;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
+    height: 40px;
+}
+
+.button{
+  display: flex;
+  justify-content: center;
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 3;
+  display: inline-block;
+  background: white;
+  color:red;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  height: 40px;
+}
+
+.submit{
+  display: flex;
+    justify-content: center;
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 3;
+    display: inline-block;
+    background: white;
+    color:red;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
+    height: 40px;
+}
+
+input{
+  background-color: white;
+  color: red;
+}
+
+button {
+  text-align: center;
+  display: inline-block;
+  background: white;
+  color:red;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  height: 40px;
+}
+
+div {
+  text-align: center;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.PostList{
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.intro {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 50px;
+}
+
+.profileName{
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+}
+
+.profileMessages {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.profilePosts{
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.profileLogin {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+}
+
+.profileMessage {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+}
+
+.profileMessageContent {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+}
+
+.existingUser {
+  color:red
+}
+
+.newUser {
+  color: red
+}
+
+.username {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.password {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.rePassword {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.Posts {
+  background-color: white;
+  color: red;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-weight: bold;
+}
+
+.fields {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.titles {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.description {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.price {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.deliver {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.location {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
